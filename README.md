@@ -1,5 +1,5 @@
 # String
-Full management and safe string allocation
+Full management and safe string allocation (Under construction)
 
 Most of the time I've created a string in C, I forget that that the amount of memory allocated by malloc is the maximum effective length of the string minus one, because a null termination is required to handle the string properly.
 
