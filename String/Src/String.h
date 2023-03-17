@@ -36,12 +36,16 @@ char *getStringVersion(void);
 void putsStringVersion(void);
 _String *new_String(int len);
 void free_String(_String *newString);
-char *setString(_String *string, char *cadena);
+char *setString(_String *Str, char *cadena);
 char *getString(_String *string);
 size_t getStringSize(_String *string);
 size_t getStringLen(_String *string);
 size_t getStringMemAlloc(_String *string);
 size_t getStringMemSizeOf(_String *string);
+int Puts(_String *s);
+_String *Strcat(_String *Str1, _String *Str2);
+_String *Strcpy(_String *Str1, _String *Str2);
+int Strcmp(String Str1, String Str2);
 
 
 #endif /* SSTRING_H_ */

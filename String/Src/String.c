@@ -20,14 +20,16 @@
  * Gets the String Version
  * @return The string Version
  */
-char * getStringVersion(void) {
+char * getStringVersion(void)
+{
 	return VERSION;
 }
 
 /**
  * Prints the String Version
  */
-void putsStringVersion(void) {
+void putsStringVersion(void)
+{
 	puts(getStringVersion());
 }
 
@@ -39,23 +41,27 @@ void putsStringVersion(void) {
  * @param len The size, the number of bytes to be set to the value ptr.
  * @return A pointer to the new String variable
  */
-String new_String(int len) {
+String new_String(int len)
+{
 	String newString;
 
-	if(!(newString = (String) malloc(sizeof(_String)))) {
+	if(!(newString = (String) malloc(sizeof(_String))))
+	{
 		errnum = errno;
 		fprintf(stderr, "Error Allocating memory for new String: (%i) - %s\n", errnum, strerror(errnum));
 		exit(errnum);
 	}
 
 	newString->size = len;
-	if(!(newString->ptr = (char *) malloc(newString->size+1))) {
+	if(!(newString->ptr = (char *) malloc(newString->size+1)))
+	{
 		errnum = errno;
 		fprintf(stderr, "Error Allocating memory for new String->ptr: (%i) - %s\n", errnum, strerror(errnum));
 		exit(errnum);
 	}
 
-	if (!memset(newString->ptr, 0, newString->size+1)) {
+	if (!memset(newString->ptr, 0, newString->size+1))
+	{
 		errnum = errno;
 		fprintf(stderr, "Error Setting memory for new String: (%i) - %s\n", errnum, strerror(errnum));
 		exit(errnum);
@@ -67,7 +73,8 @@ String new_String(int len) {
  * Destructor of a String pointer
  * @param String The String pointer to free
  */
-void free_String(String newString) {
+void free_String(String newString)
+{
 	free(newString->ptr);
 	free(newString);
 }
@@ -80,14 +87,17 @@ void free_String(String newString) {
  * @param cadena The value to store in the String
  * @return returns the pointer to the string stored in String.
  */
-char * setString(String string, char * cadena) {
+char * setString(String Str, char * cadena)
+{
 	char * ret;
-	if (!memset(string->ptr, 0, string->size+1)) {
+	if (!memset(Str->ptr, 0, Str->size+1))
+	{
 		errnum = errno;
 		fprintf(stderr, "Error Setting memory for String: (%i) - %s\n", errnum, strerror(errnum));
 		exit(errnum);
 	}
-	if (!(ret = strncpy(string->ptr, cadena, string->size))) {
+	if (!(ret = strncpy(Str->ptr, cadena, Str->size)))
+	{
 		errnum = errno;
 		fprintf(stderr, "Error Setting content for String: (%i) - %s\n", errnum, strerror(errnum));
 		exit(errnum);
@@ -100,7 +110,8 @@ char * setString(String string, char * cadena) {
  * @param string The String variable to get its string
  * @return The string stored in the String Variable
  */
-char * getString(String string) {
+char * getString(String string)
+{
 	return string->ptr;
 }
 
@@ -109,7 +120,8 @@ char * getString(String string) {
  * @param string The String variable to get its string
  * @return The amount of bytes of the string stored in a String variable
  */
-size_t getStringSize(String string) {
+size_t getStringSize(String string)
+{
 	return string->size;
 }
 
@@ -118,7 +130,8 @@ size_t getStringSize(String string) {
  * @param string The String variable to get its length
  * @return The length of the string stored
  */
-size_t getStringLen(String string) {
+size_t getStringLen(String string)
+{
 	return strlen(string->ptr);
 }
 
@@ -127,7 +140,8 @@ size_t getStringLen(String string) {
  * @param string The String variable to get its amount of memory allocated
  * @return The amount of memory of the string created
  */
-size_t getStringMemAlloc(String string) {
+size_t getStringMemAlloc(String string)
+{
 	return string->size+1;
 }
 
@@ -136,8 +150,67 @@ size_t getStringMemAlloc(String string) {
  * @param string The String variable to get its size of memory allocated
  * @return The size of memory of the String created
  */
-size_t getStringMemSizeOf(String string) {
+size_t getStringMemSizeOf(String string)
+{
 	size_t stringSize = getStringMemAlloc(string);
 	size_t StringSizeOf = sizeof(string);
 	return stringSize + StringSizeOf;
+}
+
+/* ************************************************************************
+ * C REMAKE
+ ************************************************************************ */
+
+/**
+ * Replacement for puts
+ */
+int Puts(String s)
+{
+	return puts(s->ptr);
+}
+
+/**
+ * Replacement for strcat
+ * Unlike strcat, Strcat creates a completely new String with the concatenation
+ * You should free_String() the new String
+ * @param Str1 The first String
+ * @param Str The first String
+ * @return Returns a new String with the concatenation of Strin1 and String2
+ */
+String Strcat(String Str1, String Str2)
+{
+	String Strcat = new_String(getStringLen(Str1)+getStringLen(Str2));
+	strcat(Strcat->ptr, Str1->ptr);
+	strcat(Strcat->ptr, Str2->ptr);
+	return Strcat;
+}
+
+/**
+ * Replacement for strcpy
+ * Unlike strcpy, Strcpy creates a completely new String with the concatenation
+ * You should free_String() the new String
+ * @param Str1 The String with the copy of Str2
+ * @param Str2 The String to copy in Str1
+ * @return Returns a new String with the copy of Str2 in Str1
+ */
+String Strcpy(String Str1, String Str2)
+{
+	if(getStringLen(Str2) > getStringLen(Str1))
+	{
+		free_String(Str1);
+		String Str1 = new_String(getStringLen(Str2));
+	}
+	strcpy(Str1->ptr, Str2->ptr);
+	return Str1;
+}
+
+/**
+ * replacement for strcmp
+ * @param Str1 The 1st String to compare
+ * @param Str2 The 2nd String to compare
+ * @return Returns 0 if the two Strings have the same string, otherwise a value that is not 0
+ */
+int Strcmp(String Str1, String Str2)
+{
+	return strcmp(Str1->ptr, Str2->ptr);
 }
