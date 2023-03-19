@@ -70,6 +70,16 @@ String new_String(int len)
 }
 
 /**
+ *
+ */
+String new_StringFromChar(const char * str)
+{
+	String newString = new_String(strlen(str));
+	strcpy(newString->ptr, str);
+	return newString;
+}
+
+/**
  * Destructor of a String pointer
  * @param String The String pointer to free
  */
@@ -85,9 +95,9 @@ void free_String(String newString)
  * Copies up to String's size characters from cadena. In a case where the length of cadena is less than that of the String's size, the remainder of String will be padded with null bytes.
  * @param string The String variable
  * @param cadena The value to store in the String
- * @return returns the pointer to the string stored in String.
+ * @return returns the pointer to the String.
  */
-char * setString(String Str, char * cadena)
+String setString(String Str, char * cadena)
 {
 	char * ret;
 	if (!memset(Str->ptr, 0, Str->size+1))
@@ -102,7 +112,7 @@ char * setString(String Str, char * cadena)
 		fprintf(stderr, "Error Setting content for String: (%i) - %s\n", errnum, strerror(errnum));
 		exit(errnum);
 	}
-	return ret;
+	return Str;
 }
 
 /**
@@ -136,7 +146,7 @@ size_t getStringLen(String string)
 }
 
 /**
- * Returns the amount of memory of the string created
+ * Returns the amount of memory allocated of the string created
  * @param string The String variable to get its amount of memory allocated
  * @return The amount of memory of the string created
  */
@@ -214,3 +224,5 @@ int Strcmp(String Str1, String Str2)
 {
 	return strcmp(Str1->ptr, Str2->ptr);
 }
+
+
