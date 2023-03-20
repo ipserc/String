@@ -105,8 +105,12 @@ int main(void) {
 	puts("new_StringFromChar and setString(Str1");
 	free_String(Str1);
 	Str1 = new_StringFromChar("Érase un hombre a una nariz pegado, érase una nariz superlativa,");
+	printf("Str1 - size: %lu - len: %lu\n", getStringSize(Str1), getStringLen(Str1));
+	printf("Str1 - Mem Alloc: %lu - Sizeof: %lu\n", getStringMemAlloc(Str1), getStringMemSizeOf(Str1));
 	Puts(Str1);
 	setString(Str1, "érase una nariz sayón y escriba, érase un peje espada muy barbado.");
+	printf("Str1 - size: %lu - len: %lu\n", getStringSize(Str1), getStringLen(Str1));
+	printf("Str1 - Mem Alloc: %lu - Sizeof: %lu\n", getStringMemAlloc(Str1), getStringMemSizeOf(Str1));
 	Puts(Str1);
 	setString(Str1, "Érase un reloj de sol mal encarado, érase una alquitara pensativa,");
 	Puts(Str1);
